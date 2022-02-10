@@ -329,10 +329,10 @@ class Timestepper:
                 p.RHS -= a[i]*p.MX[i-1]
             p.RHS = P @ p.RHS
 
-            #if self.a0_old != a[0] or self.b0_old != b[0]:
-            LHS = P @ (a[0]*p.M + b[0]*p.L) @ P.T
-            
-            Xbar = spla.spsolve(LHS, p.RHS)
+            if self.a0_old != a[0] or self.b0_old != b[0]:
+                LHS = P @ (a[0]*p.M + b[0]*p.L) @ P.T
+                p.LU = spla.splu(LHS)
+            Xbar = p.LU.solve(p.RHS)
             X.vector = P.T @ Xbar
             X.scatter(p)
 
@@ -391,9 +391,6 @@ class SBDF2(Timestepper):
 
 
 class BoundaryValueProblem(Problem):
-    def __init__(self, domain, variables, RHS_variables, dtype=np.float64):
-        super().__init__(domain, variables, dtype=dtype)
-        self.F = StateVector(RHS_variables, self)
 
     def solve(self, F):
         # F is RHS

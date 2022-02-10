@@ -78,7 +78,7 @@ class SHEquation:
         p = self.problem.pencils[0]
 
         x_basis = domain.bases[0]
-        I = sparse.eye(x_basis.N)
+        I = sparse.eye(x_basis.N, dtype=dtype)
         p.M = I
         
         self.N = x_basis.N

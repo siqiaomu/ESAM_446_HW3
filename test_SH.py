@@ -10,7 +10,7 @@ import spectral
 import numpy as np
 
 N_list = [16, 32, 64]
-dtype_list = [np.complex128]
+dtype_list = [np.float64, np.complex128]
 
 
 for dtype in dtype_list:    
